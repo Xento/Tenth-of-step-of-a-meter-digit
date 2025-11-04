@@ -94,14 +94,14 @@ def quantization_sparse(model, x_train):
 
     return tflite_quant_model
 
-def quantization_default(model, x_train):
+def quantization_default(model_filename, x_train):
     ##### Quantization of the pruned model
     
     def representative_dataset():
         for data in tf.data.Dataset.from_tensor_slices((x_train)).batch(1).take(100):
             yield [tf.dtypes.cast(data, tf.float32)]
 
-    converter2 = tf.lite.TFLiteConverter.from_keras_model(model)
+    converter2 = tf.lite.TFLiteConverter.from_saved_model(model_filename)
     converter2.representative_dataset = representative_dataset
     converter2.optimizations = [tf.lite.Optimize.DEFAULT]
     # Ensure that if any ops can't be quantized, the converter throws an error
