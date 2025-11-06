@@ -119,7 +119,7 @@ def predict_meter_digits(model, x_data, y_data, f_data, max_delta = 0.11, classd
     import numpy as np
     from tensorflow import keras
 
-    predictions = classdecoding(model.predict(x_data.astype(np.float32)), 100).reshape(-1)
+    predictions = classdecoding(model.predict(x_data.astype(np.float32), verbose=0), 100).reshape(-1)
 
     # 9.9 <> 0 = 0.1 and 1.1 <> 1.2 = 0.1
     differences = np.minimum(np.abs(predictions-y_data), np.abs(predictions-(10-y_data)))
